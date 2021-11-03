@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, default: "User", enum: ["User", "Admin"] },
+  refreshToken: { type: String },
 })
 
 UserSchema.pre("save", async function (next) {
@@ -30,6 +31,7 @@ UserSchema.methods.toJSON = function () {
   const userObject = userDocument.toObject()
   delete userObject.password // THIS IS NOT GOING TO AFFECT THE DATABASES
   delete userObject.__v
+  delete userObject.refreshToken
 
   return userObject
 }
